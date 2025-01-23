@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <style>
+            thead {
+                font-family: Helvetica,Arial,sans-serif;
+                font-weight: 700;
+                font-size: .812rem;
+                width: 100%;
+                border-spacing: 0;
+                background-color: rgb(247, 247, 247);
+                border-left: 1px solid rgb(230, 230, 230);
+                border-bottom: 1px solid var(--color-gray-000);
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+            th {
+                border-left: 1px solid rgb(230, 230, 230);
+            }
+            tbody {
+                border: 0;
+                background-color: var(--color-white);
+                border-bottom: 1px solid var(--color-silver-100);
+                padding: 13px 12px;            }
+            h1 {
+                font-family: "OpenSansRegular",helvetica,arial,sans-serif;
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 20px;                
+            }
+            tr {
+                border: 0;
+                background-color: var(--color-white);
+                padding: 13px 12px;
+                line-height: 1.6;
+                border-bottom: 1px solid;
+                border-bottom-color: rgb(47, 47, 47);
+            }
+            td {
+                font-size: .812rem;
+                border-right-style: solid;
+                border-right-color: lightgrey;
+            }
+            table {
+                font-family: Helvetica,Arial,sans-serif;
+                font-weight: 400;
+                border-collapse: collapse;
+                width: 100%;
+                display: table;
+                border-spacing: 0;
+                background-color: white;
+            }
+        </style>
+    </head>
+    <body>
+        
+        {% comment %} <h5>DEBUG</h5> {% endcomment %}
+        {% comment %} <p>object_id: {{ object_id }}</p>
+        <p>object_type: {{ object_type }}</p>
+        <p>user_id: {{ user_id }}</p>
+        <p>coupahost: {{ coupahost }}</p> 
+        <p>supplier: {{ suppliername }}</p> 
+        <p>cra guid: {{ cra_guid }}</p> 
+        <p>error: {{ error_desc }}</p>
+        <p>{{ json_auth }}</p> {% endcomment %}
+        <hr/>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>CRA key</th>
+                    <th>value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Compliance Process Category</td>
+                    <td>{{ kyc_tpdd_applicable }}</td>
+                </tr>
+                <tr>
+                    <td>Risk Assess Index</td>
+                    <td>{{ risk_assess_index }}</td>
+                </tr>
+                <tr>
+                    <td>Risk Assess Index date</td>
+                    <td>{{ risk_assess_index_date }}</td>
+                </tr>
+                <tr>
+                    <td>Block Reason</td>
+                    <td>{{ block_reason }}</td>
+                </tr>
+                <tr>
+                    <td>Block Date</td>
+                    <td>{{ block_date }}</td>
+                </tr>
+                <tr>
+                    <td> KYC Expiry Date</td>
+                    <td>{{ kcy_expiry_date }}</td>
+                </tr>
+                <tr>
+                    <td>TPDD Expiry Date</td>
+                    <td>{{ tpdd_expiry_date }}</td>
+                </tr>
+                <tr>
+                    <td>KYC Risk level</td>
+                    <td>{{ kyc_risk_level }}</td>
+                </tr>
+                <tr>
+                    <td>TPDD Risk Level</td>
+                    <td>{{ tpdd_risk_level }}</td>
+                </tr>
+                <tr>
+                    <td>TPDD Type</td>
+                    <td>{{ tpdd_type }}</td>
+                </tr>
+                <tr>
+                    <td>TPDD Contract End Date</td>
+                    <td>{{ tpdd_contract_end_date }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
