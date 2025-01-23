@@ -10,25 +10,26 @@ def coupasupplierdetail(request):
     user_id = request.GET.get('user_id', 0)
     coupahost = request.GET.get('coupahost', 0)
     error_desc = "None"
-    if object_type != "supplier":
-        error_desc = "The context is wrong, please talk to your administrator"
-
     supplier_name = ""
     guid = ""
-    fields = []
-    json_auth = coupa_oauth()
-    if json_auth:
-        access_token = json_auth['access_token']
-        supdets = getcoresupplierdetails(access_token, object_id)
-        supplier_name = supdets['name']
-        try:
-            supplier_guid = supdets['supplier-risk-detail']['custom-fields']['cra-entityid']
-        except KeyError:
-            supplier_guid = None
-        
-        # guid = getcrasupplierguidbyname(access_token, supplier_name)
-        if supplier_guid:
-            fields = getcrasupplierfields(access_token, supplier_guid)
+    
+    if object_type != "supplier":
+        error_desc = "The context is wrong, please talk to your administrator"
+    else:
+        fields = []
+        json_auth = coupa_oauth()
+        if json_auth:
+            access_token = json_auth['access_token']
+            supdets = getcoresupplierdetails(access_token, object_id)
+            supplier_name = supdets['name']
+            try:
+                supplier_guid = supdets['supplier-risk-detail']['custom-fields']['cra-entityid']
+            except KeyError:
+                supplier_guid = None
+            
+            # guid = getcrasupplierguidbyname(access_token, supplier_name)
+            if supplier_guid:
+                fields = getcrasupplierfields(access_token, supplier_guid)
         
     context = {
         "object_id": object_id,
