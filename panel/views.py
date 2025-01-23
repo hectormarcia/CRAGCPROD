@@ -12,11 +12,11 @@ def coupasupplierdetail(request):
     error_desc = "None"
     supplier_name = ""
     guid = ""
-    
+    fields = []
+
     if object_type != "supplier":
         error_desc = "The context is wrong, please talk to your administrator"
     else:
-        fields = []
         json_auth = coupa_oauth()
         if json_auth:
             access_token = json_auth['access_token']
