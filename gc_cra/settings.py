@@ -52,7 +52,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'panel',
     'coupaconnect',
+    'supplier',
     'django_extensions',
+    'rest_framework',
+    'apis',
 ]
 
 MIDDLEWARE = [
