@@ -9,6 +9,8 @@ gunicorn = "*"
 pyopenssl = "*"
 requests = "*"
 djangorestframework = "*"
+whitenoise = "*"
+mysqlclient = "*"
 
 [dev-packages]
 

@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
+# IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
+IS_AZURE_APP = "WEBSITE_HOSTNAME" in os.environ
 
-if not IS_HEROKU_APP:
+if not IS_AZURE_APP:
     APP_TYPE = "DEV"
     OAUTH_PATH = "https://glencore-dev.coupahost.com/oauth2/token"
     OAUTH_CLIENT_ID = "931c9a1dbbf6b15a060b56972bf7bc28"
@@ -25,6 +26,12 @@ if not IS_HEROKU_APP:
     COUPA_CRA_API_PATH = "https://glencore-dev.risk.coupahost.com/api"
 else:
     APP_TYPE = os.getenv("APP_TYPE")
+    OAUTH_PATH = os.getenv("OAUTH_PATH")
+    OAUTH_CLIENT_ID = os.getenv("OAUTH_CLIENT_ID")
+    OAUTH_CLIENT_SECRET = os.getenv("OAUTH_CLIENT_SECRET")
+    OAUTH_SCOPE = os.getenv("OAUTH_SCOPE")
+    COUPA_API_PATH = os.getenv("COUPA_API_PATH")
+    COUPA_CRA_API_PATH = os.getenv("COUPA_CRA_API_PATH")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,12 +99,32 @@ WSGI_APPLICATION = 'gc_cra.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+if IS_AZURE_APP:
+    DATABASES = {
+        "default": {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv("AZURE_MYSQL_NAME"),
+            'HOST': os.getenv("AZURE_MYSQL_HOST"),
+            'USER': os.getenv("AZURE_MYSQL_USER"),
+            'PASSWORD': os.getenv("AZURE_MYSQL_PASSWORD")
+        }
+    }    
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'gc_cra',
+            'HOST': 'localhost',
+            'USER': 'gc',
+            'PASSWORD': 'MyPassword123!'
+        }
+    }    
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # }
 
 
 # Password validation
