@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from panel import views
+from supplier.views import syncFTP
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.coupasupplierdetail),
-    path('api/', include("apis.urls"))
+    path('api/', include("apis.urls")),
+    path('ftp/', syncFTP)
 ]
