@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'apis',
-    'django.contrib.humanize',
+    # 'django.contrib.humanize',
     # 'django_filters',
 ]
 

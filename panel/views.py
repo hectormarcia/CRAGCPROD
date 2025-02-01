@@ -36,7 +36,7 @@ def coupasupplierdetail(request):
             else:
                 error_desc = "This supplier is not linked to CRA yet"
         
-        cras = crastatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'created_at', 'updated_at')
+        cras = crastatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate')
     
         # sup = Supplier.objects.get(pk=object_id)
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
