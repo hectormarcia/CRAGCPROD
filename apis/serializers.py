@@ -23,13 +23,13 @@ class CompanySerializer(serializers.ModelSerializer):
 # Create a model serializer
 class SupplierSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    compliance_thresholds = ComplianceThresholdSerializer(many=True,required=False, allow_null=True)
+    compliance_threshold = ComplianceThresholdSerializer(many=True,required=False, allow_null=True)
     company = CompanySerializer(required=False, allow_null=True)
 
     # specify model and fields
     class Meta:
         model = Supplier
-        fields = ('id','coupa_supplier_id', 'coupa_sim_id', 'system_id_1','company', 'compliance_thresholds')
+        fields = ('id','coupa_supplier_id', 'coupa_sim_id', 'system_id_1','company', 'compliance_threshold')
         read_only_fields = ('id',)
 
     def validate(self, data):
@@ -62,7 +62,7 @@ class SupplierSerializer(serializers.ModelSerializer):
 
         cths = None
         try:
-            cths = validated_data.pop('compliance_thresholds')
+            cths = validated_data.pop('compliance_threshold')
         except:
             pass
 
@@ -149,7 +149,7 @@ class SupplierSerializer(serializers.ModelSerializer):
     
         cths = None
         try:
-            cths = validated_data.pop('compliance_thresholds')
+            cths = validated_data.pop('compliance_threshold')
         except:
             pass
         
@@ -184,7 +184,7 @@ class SupplierSerializer(serializers.ModelSerializer):
     
         cths = None
         try: 
-            cths = validated_data.pop('compliance_thresholds')
+            cths = validated_data.pop('compliance_threshold')
         except:
             pass
 
