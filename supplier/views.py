@@ -12,7 +12,10 @@ def filetosql(csvfile):
     count = 0
     for row in reader:
         count += 1
-        thekey = row['Evaluation Fact DI']
+        if 'Evaluation Fact DI' in row:
+            thekey = row['Evaluation Fact DI']
+        if 'Evaluation Fact ID' in row:
+            thekey = row['Evaluation Fact ID']
         cras = CRAstatus.objects.filter(evaluationfactdi=thekey)
         if len(cras) > 0:
             cra = cras[0]
