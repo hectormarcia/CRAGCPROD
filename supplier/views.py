@@ -52,7 +52,8 @@ def syncFTP(request):
     print("FTP SETTINGS:")
     print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
     
-    sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=settings.SFTP_PORT, password=settings.SFTP_PASSWORD, cnopts=cnopts)
+    ftpport = int(settings.SFTP_PORT)
+    sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=ftpport, password=settings.SFTP_PASSWORD, cnopts=cnopts)
     
     if request.method == "POST":
         data = request.POST
