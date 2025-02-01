@@ -141,6 +141,10 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
+        print("Supplier POST API payload BEGIN")
+        print(validated_data)
+        print("Supplier POST API payload END")
+        
         return self.upsert(validated_data)
     
         cths = None
@@ -172,6 +176,10 @@ class SupplierSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        print("Supplier PUT API payload BEGIN")
+        print(validated_data)
+        print("Supplier PUT API payload END")
+        
         return self.upsert(validated_data)
     
         cths = None
