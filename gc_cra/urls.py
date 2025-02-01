@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from panel import views
+# from panel import views
+from panel.views import coupasupplierdetail, crastatuslist
 from supplier.views import syncFTP
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.coupasupplierdetail),
+    path('', coupasupplierdetail),
     path('api/', include("apis.urls")),
-    path('ftp/', syncFTP)
+    path('ftp/', syncFTP),
+    path('crastatus/', crastatuslist)
 ]

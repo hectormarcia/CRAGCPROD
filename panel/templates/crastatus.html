@@ -1,0 +1,91 @@
+<html>
+    <head>
+        <style>
+            thead {
+                font-family: Helvetica,Arial,sans-serif;
+                font-weight: 700;
+                font-size: .812rem;
+                width: 100%;
+                border-spacing: 0;
+                background-color: rgb(247, 247, 247);
+                border-left: 1px solid rgb(230, 230, 230);
+                border-bottom: 1px solid var(--color-gray-000);
+                white-space: nowrap;
+                vertical-align: middle;
+            }
+            th {
+                border-left: 1px solid rgb(230, 230, 230);
+            }
+            tbody {
+                border: 0;
+                background-color: var(--color-white);
+                border-bottom: 1px solid var(--color-silver-100);
+                padding: 13px 12px;            }
+            h1 {
+                font-family: "OpenSansRegular",helvetica,arial,sans-serif;
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 20px;                
+            }
+            tr {
+                border: 0;
+                background-color: var(--color-white);
+                padding: 13px 12px;
+                line-height: 1.6;
+                border-bottom: 1px solid;
+                border-bottom-color: rgb(47, 47, 47);
+            }
+            td {
+                font-size: .812rem;
+                border-right-style: solid;
+                border-right-color: lightgrey;
+            }
+            table {
+                font-family: Helvetica,Arial,sans-serif;
+                font-weight: 400;
+                border-collapse: collapse;
+                width: 100%;
+                display: table;
+                border-spacing: 0;
+                background-color: white;
+            }
+        </style>
+    </head>
+
+
+<body>
+
+    <table>
+        <thead>
+
+            <tr>
+                <th>evaluationfactdi</th>
+                <th>corporatename</th>
+                <th>proxyid</th>
+                <th>entityid</th>
+                <th>programname</th>
+                <th>programstatus</th>
+                <th>createdate</th>
+                <th>updatedate</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for cra in cras %}
+            <tr>
+                <td>{{ cra.evaluationfactdi }}</td>
+                <td>{{ cra.corporatename }}</td>
+                <td>{{ cra.proxyid }}</td>
+                <td>{{ cra.entityid }}</td>
+                <td>{{ cra.programname }}</td>
+                <td>{{ cra.programstatus }}</td>
+                <td>{{ cra.createdate }}</td>
+                <td>{{ cra.updatedate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>

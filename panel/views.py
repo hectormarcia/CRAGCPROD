@@ -80,3 +80,12 @@ def coupasupplierdetail(request):
             #     context['tpdd_contract_end_date'] = field['tpdd_contract_end_date']
     
     return render (request,'supplierdetail.html', context)
+
+
+
+def crastatuslist(request):
+    cras = crastatus.objects.all()
+    context = {
+        'cras': list(cras)
+    }
+    return render (request,'crastatus.html', context)
