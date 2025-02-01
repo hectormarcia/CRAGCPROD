@@ -74,7 +74,7 @@ INSTALLED_APPS = [
 #     ]
 # }
 
-CSRF_TRUSTED_ORIGINS = ["https://glencorecradev.azurewebsites.net","https://glencorecraqa.azurewebsites.net"]
+CSRF_TRUSTED_ORIGINS = ["https://glencorecradev.azurewebsites.net","https://qacra-asfrgjg5afbyc8e3.northeurope-01.azurewebsites.net"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
