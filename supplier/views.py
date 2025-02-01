@@ -28,8 +28,10 @@ def filetosql(csvfile):
             cra.programname = row['Program Name']
         if 'Program Status' in row:
             cra.programstatus = row['Program Status']
-        if 'Proxy ID' in row:
-            cra.proxyid = row['Proxy ID']
+        if 'Evaluation Fact ID' in row:
+            cra.evaluationfactdi = row['Evaluation Fact ID']
+        if 'Evaluation Fact DI' in row:
+            cra.evaluationfactdi = row['Evaluation Fact DI']
         if 'Create Date' in row:
             cra.createdate = row['Create Date']
         if 'Modify Date' in row:
