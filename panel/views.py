@@ -23,7 +23,7 @@ def coupasupplierdetail(request):
         json_auth = coupa_oauth()
         if json_auth:
             access_token = json_auth['access_token']
-            proxyid = getproxysupplierdetails(access_token, 74676)
+            proxyid = getproxysupplierdetails(access_token, object_id)
             if proxyid == 0:
                 error_desc = "This supplier is not linked to CRA yet"
             else:
