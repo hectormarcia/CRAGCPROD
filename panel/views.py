@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.decorators.clickjacking import xframe_options_exempt
 from coupaconnect.utility import coupa_oauth, getcoresupplierdetails, getcrasupplierguidbyname, getcrasupplierfields
+from supplier.models import Supplier, Compliance_threshhold
+from panel.models import crastatus
 # Create your views here.
 
 @xframe_options_exempt
@@ -24,12 +26,21 @@ def coupasupplierdetail(request):
             supplier_name = supdets['name']
             try:
                 supplier_guid = supdets['supplier-risk-detail']['custom-fields']['cra-entityid']
-            except KeyError:
+            except:
                 supplier_guid = None
+                supplier_guid = 'd67d80ad-d198-4c4c-8075-b07e5829793c'
             
             # guid = getcrasupplierguidbyname(access_token, supplier_name)
             if supplier_guid:
                 fields = getcrasupplierfields(access_token, supplier_guid)
+            else:
+                error_desc = "This supplier is not linked to CRA yet"
+        
+        cras = crastatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'created_at', 'updated_at')
+    
+        sup = Supplier.objects.get(pk=object_id)
+        comths = Compliance_threshhold.objects.filter(Supplier=sup)
+        
         
     context = {
         "object_id": object_id,
@@ -38,7 +49,9 @@ def coupasupplierdetail(request):
         "coupahost": coupahost,
         "suppliername": supplier_name,
         "cra_guid": guid,
-        "error_desc": error_desc
+        "error_desc": error_desc,
+        "programmes": list(cras),
+        "comths": list(comths)
     }
     
     if len(fields) > 0:

@@ -12,6 +12,7 @@ djangorestframework = "*"
 whitenoise = "*"
 mysqlclient = "*"
 pysftp = "*"
+django-filter = "*"
 
 [dev-packages]
 

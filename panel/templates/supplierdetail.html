@@ -27,6 +27,12 @@
                 font-weight: 700;
                 line-height: 20px;                
             }
+            h2 {
+                font-family: "OpenSansRegular",helvetica,arial,sans-serif;
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 20px;                
+            }            
             tr {
                 border: 0;
                 background-color: var(--color-white);
@@ -64,58 +70,104 @@
         <p>{{ json_auth }}</p> {% endcomment %}
         <hr/>
 
+        {% if error_desc != "None" %}
+            <h2>{{ error_desc }}</h2>
+        {% endif %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Program</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in programmes%}
+                <tr>
+                    <td>{{ item.programname }}</td>
+                    <td>{{ item.programstatus }}</td>
+                    <td>{{ item.updated_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+         </table>
+<br/>
         <table>
             <thead>
                 <tr>
                     <th>CRA key</th>
-                    <th>value</th>
+                    <th>Value</th>
                 </tr>
             </thead>
             <tbody>
+                {% if kyc_tpdd_applicable %}
                 <tr>
                     <td>Compliance Process Category</td>
                     <td>{{ kyc_tpdd_applicable }}</td>
                 </tr>
+                {% endif %}
+                {% if risk_assess_index %}
                 <tr>
                     <td>Risk Assess Index</td>
                     <td>{{ risk_assess_index }}</td>
                 </tr>
+                {% endif %}
+                {% if risk_assess_index_date %}
                 <tr>
                     <td>Risk Assess Index date</td>
                     <td>{{ risk_assess_index_date }}</td>
                 </tr>
+                {% endif %}
+                {% if block_reason %}
                 <tr>
                     <td>Block Reason</td>
                     <td>{{ block_reason }}</td>
                 </tr>
+                {% endif %}
+                {% if block_date %}
                 <tr>
                     <td>Block Date</td>
                     <td>{{ block_date }}</td>
                 </tr>
+                {% endif %}
+                {% if kcy_expiry_date %}
                 <tr>
                     <td> KYC Expiry Date</td>
                     <td>{{ kcy_expiry_date }}</td>
                 </tr>
+                {% endif %}
+                {% if tpdd_expiry_date %}
                 <tr>
                     <td>TPDD Expiry Date</td>
                     <td>{{ tpdd_expiry_date }}</td>
                 </tr>
+                {% endif %}
+                {% if kyc_risk_level %}
                 <tr>
                     <td>KYC Risk level</td>
                     <td>{{ kyc_risk_level }}</td>
                 </tr>
+                {% endif %}
+                {% if tpdd_risk_level %}
                 <tr>
                     <td>TPDD Risk Level</td>
                     <td>{{ tpdd_risk_level }}</td>
                 </tr>
+                {% endif %}
+                {% if tpdd_type %}
                 <tr>
                     <td>TPDD Type</td>
                     <td>{{ tpdd_type }}</td>
                 </tr>
+                {% endif %}
+                {% if tpdd_contract_end_date %}
                 <tr>
                     <td>TPDD Contract End Date</td>
                     <td>{{ tpdd_contract_end_date }}</td>
                 </tr>
+                {% endif %}
+
             </tbody>
         </table>
     </body>

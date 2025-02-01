@@ -9,6 +9,8 @@ class crastatus(models.Model):
     programname = models.CharField(max_length=128, null=True)
     programstatus = models.CharField(max_length=128, null=True)
     evaluationfactdi = models.IntegerField(null=True)
+    createdate = models.CharField(max_length=80, null=True)
+    updatedate = models.CharField(max_length=80, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

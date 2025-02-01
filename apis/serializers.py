@@ -1,5 +1,5 @@
 from rest_framework import serializers
- 
+
 # import model from models.py
 from supplier.models import Supplier, Company, Compliance_threshhold
 
@@ -25,6 +25,7 @@ class SupplierSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
     compliance_thresholds = ComplianceThresholdSerializer(many=True,required=False, allow_null=True)
     company = CompanySerializer(required=False, allow_null=True)
+
     # specify model and fields
     class Meta:
         model = Supplier
