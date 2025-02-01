@@ -6,6 +6,7 @@ import csv
 from panel.models import crastatus
 
 def filetosql(csvfile):
+    print('FTP PROCESS ROWS')
     csvfile.seek(3) # read past the BOM
     reader = csv.DictReader(csvfile)    
     for row in reader:
@@ -32,7 +33,7 @@ def filetosql(csvfile):
         if 'Modify Date' in row:
             cra.updatedate = row['Modify Date']
         cra.save()
-        # print(row)
+        print(row)
 
 def processftpfile(sftp, filename):
     # cnopts = pysftp.CnOpts()
@@ -47,6 +48,9 @@ def processftpfile(sftp, filename):
 def syncFTP(request):
     cnopts = pysftp.CnOpts()
     cnopts.hostkeys = None
+    
+    print("FTP SETTINGS:")
+    print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
     
     sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=settings.SFTP_PORT, password=settings.SFTP_PASSWORD, cnopts=cnopts)
     
