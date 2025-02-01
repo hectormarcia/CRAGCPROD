@@ -56,12 +56,17 @@ def processftpfile(sftp, filename):
     nowtimestring = nowtime.strftime('%Y%m%d_%H%M%S')
     tofile = filename.replace('.csv', ' (' + nowtimestring + ')') + '.csv'
     topath = settings.SFTP_DIRECTORY + '/' + tofile
-    sftp.rename(frompath, topath)
-    with sftp.open(topath, 'r', 32768) as f:
-        count = filetosql(f)
-    log = CraFtpLog(filename=filename, records=count)
-    log.save()
-
+    try:
+        sftp.rename(frompath, topath)
+        with sftp.open(topath, 'r', 32768) as f:
+            count = filetosql(f)
+        log = CraFtpLog(filename=filename, records=count)
+        log.save()
+        return True
+    except:
+        # the file did not exist because I assumed it did due to process == true
+        return False
+    
 # Create your views here.
 def syncFTP(request):
     logs = CraFtpLog.objects.all().order_by('created_at')
@@ -76,6 +81,22 @@ def syncFTP(request):
     ftpport = int(settings.SFTP_PORT)
     sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=ftpport, password=settings.SFTP_PASSWORD, cnopts=cnopts)
     
+    if request.method == "GET":
+        data = request.GET
+        if 'process' in data:
+            if data['process'] == 'true':
+                print('Process Supplier Program Statuses - V2.csv - IS IT EXISTS')
+                retVal = processftpfile(sftp, 'Supplier Program Statuses - V2.csv')
+                if retVal == True:
+                    msg = 'Succesfully processed Supplier Program Statuses - V2.csv'
+                else:
+                    msg = 'No file to process found'
+                    
+                context = {
+                    'message': msg
+                }
+                return render (request,'ftplist.html', context)
+            
     if request.method == "POST":
         data = request.POST
         filename = data.get('filename')
