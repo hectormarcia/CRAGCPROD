@@ -1,14 +1,9 @@
 from django.shortcuts import render
+from django.conf import settings
 # from ftplib import FTP
 import pysftp
 import csv
 from panel.models import crastatus
-
-SFTP_HOST = 'fileshare-eu-test.coupahost.com'
-SFTP_USERNAME = 'glencore-dev'
-SFTP_PASSWORD = 'X2ymchRWS6fh'
-SFTP_PORT = 22
-SFTP_DIRECTORY = '/Outgoing/CRAPanelApp'
 
 def filetosql(csvfile):
     csvfile.seek(3) # read past the BOM
@@ -43,8 +38,8 @@ def processftpfile(sftp, filename):
     # cnopts = pysftp.CnOpts()
     # cnopts.hostkeys = None
     # sftp = pysftp.Connection(SFTP_HOST, username=SFTP_USERNAME, port=SFTP_PORT, password=SFTP_PASSWORD, cnopts=cnopts)
-    sftp.cwd(SFTP_DIRECTORY)
-    path = SFTP_DIRECTORY + '/' + filename
+    sftp.cwd(settings.SFTP_DIRECTORY)
+    path = settings.SFTP_DIRECTORY + '/' + filename
     with sftp.open(path, 'r', 32768) as f:
         filetosql(f)
 
@@ -53,14 +48,14 @@ def syncFTP(request):
     cnopts = pysftp.CnOpts()
     cnopts.hostkeys = None
     
-    sftp = pysftp.Connection(SFTP_HOST, username=SFTP_USERNAME, port=SFTP_PORT, password=SFTP_PASSWORD, cnopts=cnopts)
+    sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=settings.SFTP_PORT, password=settings.SFTP_PASSWORD, cnopts=cnopts)
     
     if request.method == "POST":
         data = request.POST
         filename = data.get('filename')
         processftpfile(sftp, filename)
 
-    sftp.cwd(SFTP_DIRECTORY)
+    sftp.cwd(settings.SFTP_DIRECTORY)
     files = sftp.listdir()
     # for file in files:
     #     print(file)

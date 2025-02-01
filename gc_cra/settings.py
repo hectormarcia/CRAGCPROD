@@ -108,6 +108,19 @@ WSGI_APPLICATION = 'gc_cra.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 if IS_AZURE_APP:
+    SFTP_HOST = os.getenv("SFTP_HOST"),
+    SFTP_USERNAME = os.getenv("SFTP_USERNAME"),
+    SFTP_PASSWORD = os.getenv("SFTP_PASSWORD"),
+    SFTP_PORT = os.getenv("SFTP_PORT"),
+    SFTP_DIRECTORY = os.getenv("SFTP_DIRECTORY"),
+else:
+    SFTP_HOST = 'fileshare-eu-test.coupahost.com'
+    SFTP_USERNAME = 'glencore-dev'
+    SFTP_PASSWORD = 'X2ymchRWS6fh'
+    SFTP_PORT = 22
+    SFTP_DIRECTORY = '/Outgoing/CRAPanelApp'
+
+if IS_AZURE_APP:
     DATABASES = {
         "default": {
             'ENGINE': 'django.db.backends.mysql',
