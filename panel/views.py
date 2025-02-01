@@ -42,7 +42,7 @@ def coupasupplierdetail(request):
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
         if len(sups) > 0:
             sup = sups[0]
-            comths = Compliance_threshhold.objects.filter(Supplier=sup)
+            comths = Compliance_threshhold.objects.filter(supplier=sup)
         else:
             comths = []
         
