@@ -76,7 +76,15 @@
                         <input type="submit" value="process">
                     </form>  
                 </td>
-                <td>{{ file }}</td>
+                <td>
+                    {% if file == "Supplier Program Statuses - V2.csv" %}
+                    <strong>
+                    {% endif %}
+                    {{ file }}
+                    {% if file == "Supplier Program Statuses - V2.csv" %}
+                    </strong>
+                    {% endif %}                
+                </td>
             </tr>
             {% endfor %}
         </tbody>

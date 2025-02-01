@@ -4,6 +4,7 @@ from django.conf import settings
 import pysftp
 import csv
 from panel.models import CRAstatus, CraFtpLog
+import datetime
 
 def filetosql(csvfile):
     print('FTP PROCESS ROWS')
@@ -50,8 +51,13 @@ def processftpfile(sftp, filename):
     # cnopts.hostkeys = None
     # sftp = pysftp.Connection(SFTP_HOST, username=SFTP_USERNAME, port=SFTP_PORT, password=SFTP_PASSWORD, cnopts=cnopts)
     sftp.cwd(settings.SFTP_DIRECTORY)
-    path = settings.SFTP_DIRECTORY + '/' + filename
-    with sftp.open(path, 'r', 32768) as f:
+    frompath = settings.SFTP_DIRECTORY + '/' + filename
+    nowtime = datetime.datetime.now()
+    nowtimestring = nowtime.strftime('%Y%m%d_%H%M%S')
+    tofile = filename.replace('.csv', ' (' + nowtimestring + ')') + '.csv'
+    topath = settings.SFTP_DIRECTORY + '/' + tofile
+    sftp.rename(frompath, topath)
+    with sftp.open(topath, 'r', 32768) as f:
         count = filetosql(f)
     log = CraFtpLog(filename=filename, records=count)
     log.save()
@@ -61,8 +67,9 @@ def syncFTP(request):
     cnopts = pysftp.CnOpts()
     cnopts.hostkeys = None
     
-    print("FTP SETTINGS:")
-    print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
+    # print("FTP SETTINGS:")
+    # print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
+    # print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
     
     ftpport = int(settings.SFTP_PORT)
     sftp = pysftp.Connection(settings.SFTP_HOST, username=settings.SFTP_USERNAME, port=ftpport, password=settings.SFTP_PASSWORD, cnopts=cnopts)
