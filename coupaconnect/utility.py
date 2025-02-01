@@ -32,7 +32,10 @@ def getcrasupplierfields(token, guid):
     print('getcrasupplierfields')
     data = response.json()
     print(data)
-    fields = data['result']['extensionFields'] # just blank if supplier has none
+    try:
+        fields = data['result']['extensionFields'] # just blank if supplier has none
+    except:
+        fields = []
     return fields
 
 def getcrasupplierguidbyname(token, suppliername):

@@ -1,3 +1,4 @@
+{% load currency_filters %}
 <html>
     <head>
         <style>
@@ -55,6 +56,7 @@
                 border-spacing: 0;
                 background-color: white;
             }
+            .alnright { text-align: right; }
         </style>
     </head>
     <body>
@@ -173,10 +175,10 @@
                 {% for compl in comths%}
                 <tr>
                     <td>{{ compl.total_year }}</td>
-                    <td>{{ compl.spend_currency }} {{ compl.spend_non_po_invoices }}</td>
-                    <td>{{ compl.spend_currency }} {{ compl.spend_purchase_orders }}</td>
-                    <td>{{ compl.spend_currency }} {{ compl.spend_total }}</td>
-                    <td>{{ compl.spend_currency }} {{ compl.spend_threshold }}</td>
+                    <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_non_po_invoices|currency }}</td>
+                    <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_purchase_orders|currency }}</td>
+                    <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_total|currency }}</td>
+                    <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_threshold|currency }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
