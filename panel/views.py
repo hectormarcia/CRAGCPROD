@@ -38,8 +38,14 @@ def coupasupplierdetail(request):
         
         cras = crastatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'created_at', 'updated_at')
     
-        sup = Supplier.objects.get(pk=object_id)
-        comths = Compliance_threshhold.objects.filter(Supplier=sup)
+        # sup = Supplier.objects.get(pk=object_id)
+        sups = Supplier.objects.filter(coupa_supplier_id=object_id)
+        if len(sups) > 0:
+            sup = sups[0]
+            comths = Compliance_threshhold.objects.filter(Supplier=sup)
+        else:
+            comths = []
+        
         
         
     context = {

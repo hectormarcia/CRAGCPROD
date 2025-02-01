@@ -30,7 +30,6 @@ def getcrasupplierfields(token, guid):
 
     response = requests.request("GET", url, headers=headers, data=payload)
     print('getcrasupplierfields')
-    # print(response)
     data = response.json()
     print(data)
     fields = data['result']['extensionFields'] # just blank if supplier has none
