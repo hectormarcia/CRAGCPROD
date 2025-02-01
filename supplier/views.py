@@ -64,9 +64,11 @@ def processftpfile(sftp, filename):
 
 # Create your views here.
 def syncFTP(request):
+    logs = CraFtpLog.objects.all().order_by('created_at')
+    
     cnopts = pysftp.CnOpts()
     cnopts.hostkeys = None
-    
+        
     # print("FTP SETTINGS:")
     # print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
     # print("\tHOST: {}\n\tUSERNAME: {}\n\tPORT: {}\n\tPASSWORD: {}\n".format(settings.SFTP_HOST, settings.SFTP_USERNAME, settings.SFTP_PORT,settings.SFTP_PASSWORD ))
@@ -81,11 +83,10 @@ def syncFTP(request):
 
     sftp.cwd(settings.SFTP_DIRECTORY)
     files = sftp.listdir()
-    # for file in files:
-    #     print(file)
         
     context = {
-        "files": files
+        "files": files,
+        "logs": logs
     }
     return render (request,'ftplist.html', context)
 

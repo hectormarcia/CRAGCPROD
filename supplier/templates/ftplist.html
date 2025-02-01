@@ -58,9 +58,9 @@
 
 <body>
 
+    <h1>Files on FTP</h1>
     <table>
         <thead>
-
             <tr>
                 <th>Actions</th>
                 <th>File</th>
@@ -89,6 +89,33 @@
             {% endfor %}
         </tbody>
     </table>
+    <br/>
+    <h1>FTP process logs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>When</th>
+                <th>What</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>
+                    {{ log.created_at }}             
+                </td>
+                <td>
+                    {{ log.filename }}             
+                </td>
+                <td>
+                    {{ log.records }}             
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 
 </body>
 
