@@ -3,19 +3,21 @@ from django.conf import settings
 # from ftplib import FTP
 import pysftp
 import csv
-from panel.models import crastatus
+from panel.models import CRAstatus, CraFtpLog
 
 def filetosql(csvfile):
     print('FTP PROCESS ROWS')
     csvfile.seek(3) # read past the BOM
     reader = csv.DictReader(csvfile)    
+    count = 0
     for row in reader:
+        count += 1
         thekey = row['Evaluation Fact DI']
-        cras = crastatus.objects.filter(evaluationfactdi=thekey)
+        cras = CRAstatus.objects.filter(evaluationfactdi=thekey)
         if len(cras) > 0:
             cra = cras[0]
         else:
-            cra = crastatus(evaluationfactdi=thekey)
+            cra = CRAstatus(evaluationfactdi=thekey)
         if 'Corporate Name' in row:
             cra.corporatename = row['Corporate Name']
         if 'Proxy ID' in row:
@@ -34,6 +36,9 @@ def filetosql(csvfile):
             cra.updatedate = row['Modify Date']
         cra.save()
         print(row)
+    
+    return count
+
 
 def processftpfile(sftp, filename):
     # cnopts = pysftp.CnOpts()
@@ -42,7 +47,9 @@ def processftpfile(sftp, filename):
     sftp.cwd(settings.SFTP_DIRECTORY)
     path = settings.SFTP_DIRECTORY + '/' + filename
     with sftp.open(path, 'r', 32768) as f:
-        filetosql(f)
+        count = filetosql(f)
+    log = CraFtpLog(filename=filename, records=count)
+    log.save()
 
 # Create your views here.
 def syncFTP(request):

@@ -38,9 +38,26 @@ def getcrasupplierfields(token, guid):
         fields = []
     return fields
 
-def getcrasupplierguidbyname(token, suppliername):
-    guid = None
-    url = settings.COUPA_CRA_API_PATH + '/suppliers?name[eq]={0}'.format(suppliername)
+# def getcrasupplierguidbyname(token, suppliername):
+#     guid = None
+#     url = settings.COUPA_CRA_API_PATH + '/suppliers?name[eq]={0}'.format(suppliername)
+#     print('url: ' + url)
+#     payload = {}
+#     headers = {
+#         'Accept': 'application/json',
+#         'Authorization': 'Bearer {0}'.format(token)
+#     }
+
+#     response = requests.request("GET", url, headers=headers, data=payload)
+#     data = response.json()
+#     print(data)
+#     guid = data['result']['suppliers'][0]['entityId']
+#     print(guid)
+#     return guid
+
+
+def getproxysupplierdetails(token, supplierid):
+    url = settings.COUPA_API_PATH + "/proxy_suppliers?id={0}&fields=[\"id\"]".format(supplierid)
     print('url: ' + url)
     payload = {}
     headers = {
@@ -48,12 +65,15 @@ def getcrasupplierguidbyname(token, suppliername):
         'Authorization': 'Bearer {0}'.format(token)
     }
 
+    proxyid = 0
     response = requests.request("GET", url, headers=headers, data=payload)
     data = response.json()
+    if len(data) > 0:
+        record1 = data[0]
+        if 'id' in record1:
+            proxyid = record1['id']
     print(data)
-    guid = data['result']['suppliers'][0]['entityId']
-    print(guid)
-    return guid
+    return proxyid
 
 # but we are filtering to only get the name
 def getcoresupplierdetails(token, supplierid):

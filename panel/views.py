@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.decorators.clickjacking import xframe_options_exempt
-from coupaconnect.utility import coupa_oauth, getcoresupplierdetails, getcrasupplierguidbyname, getcrasupplierfields
+from coupaconnect.utility import coupa_oauth, getcoresupplierdetails, getproxysupplierdetails, getcrasupplierfields
 from supplier.models import Supplier, Compliance_threshhold
-from panel.models import crastatus
+from panel.models import CRAstatus, CraFtpLog
+from django.db.models import Max
 # Create your views here.
 
 @xframe_options_exempt
@@ -22,21 +23,22 @@ def coupasupplierdetail(request):
         json_auth = coupa_oauth()
         if json_auth:
             access_token = json_auth['access_token']
-            supdets = getcoresupplierdetails(access_token, object_id)
-            supplier_name = supdets['name']
-            try:
-                supplier_guid = supdets['supplier-risk-detail']['custom-fields']['cra-entityid']
-            except:
+            proxyid = getproxysupplierdetails(access_token, 74676)
+            if proxyid == 0:
+                error_desc = "This supplier is not linked to CRA yet"
+            else:
                 supplier_guid = None
-                supplier_guid = 'd67d80ad-d198-4c4c-8075-b07e5829793c'
+                cras = CRAstatus.objects.filter(proxyid=proxyid)
+                if len(cras) > 0:
+                    cra = cras[0]
+                    supplier_guid = cra.entityid
             
-            # guid = getcrasupplierguidbyname(access_token, supplier_name)
             if supplier_guid:
                 fields = getcrasupplierfields(access_token, supplier_guid)
             else:
                 error_desc = "This supplier is not linked to CRA yet"
         
-        cras = crastatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate')
+        cras = CRAstatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate')
     
         # sup = Supplier.objects.get(pk=object_id)
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
@@ -46,7 +48,11 @@ def coupasupplierdetail(request):
         else:
             comths = []
         
-        
+    maxval = None
+    try:
+        maxval = CraFtpLog.objects.aggregate(Max('created_at'))['created_at__max'] 
+    except:
+        pass
         
     context = {
         "object_id": object_id,
@@ -57,7 +63,8 @@ def coupasupplierdetail(request):
         "cra_guid": guid,
         "error_desc": error_desc,
         "programmes": list(cras),
-        "comths": list(comths)
+        "comths": list(comths),
+        "lastupdate": maxval
     }
     
     if len(fields) > 0:
@@ -87,10 +94,8 @@ def coupasupplierdetail(request):
     
     return render (request,'supplierdetail.html', context)
 
-
-
 def crastatuslist(request):
-    cras = crastatus.objects.all()
+    cras = CRAstatus.objects.all()
     context = {
         'cras': list(cras)
     }

@@ -2,7 +2,12 @@ from django.db import models
 
 # Create your models here.
 
-class crastatus(models.Model):
+class CraFtpLog(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    filename = models.CharField(max_length=250, null=False)
+    records =  models.IntegerField(null=True)
+
+class CRAstatus(models.Model):
     corporatename = models.CharField(max_length=250, null=False)
     proxyid = models.IntegerField(null=True)
     entityid = models.CharField(max_length=128, null=False)
