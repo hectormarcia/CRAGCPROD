@@ -73,27 +73,18 @@ def coupasupplierdetail(request):
         for field in fields:
             if  field['value']:
                 context[field['name']] = field['value']
-            # if field['name'] == 'kyc_tpdd_applicable':
-            #     context['kyc_tpdd_applicable'] = field['kyc_tpdd_applicable'] 
-            # if 'risk_assess_index' in field:
-            #     context['risk_assess_index'] = field['risk_assess_index'] 
-            # if 'risk_assess_index_date' in field:
-            #     context['risk_assess_index_date'] = field['risk_assess_index_date']
-            # if 'block_reason' in field:
-            #     context['block_reason'] = field['block_reason']
-            # if 'block_date' in field:
-            #     context['block_date'] = field['block_date']
-            # if 'kcy_expiry_date' in field:
-            #     context['kcy_expiry_date'] = field['kcy_expiry_date']
-            # if 'tpdd_expiry_date' in field:
-            #     context['tpdd_expiry_date'] = field['tpdd_expiry_date']
-            # if 'kyc_risk_level' in field:
-            #     context['kyc_risk_level'] = field['kyc_risk_level']
-            # if 'tpdd_type' in field:
-            #     context['tpdd_type'] = field['tpdd_type']
-            # if 'tpdd_contract_end_date' in field:
-            #     context['tpdd_contract_end_date'] = field['tpdd_contract_end_date']
-    
+
+    if context['kyc_tpdd_applicable'] == 'tpdd':
+        context['ComplianceProcessCategory'] = 'TPDD'
+    elif context['kyc_tpdd_applicable'] == 'kyc':
+        context['ComplianceProcessCategory'] = 'KYC Full'
+    elif context['kyc_tpdd_applicable'] == 'simplified_kyc':
+        context['ComplianceProcessCategory'] = 'KYC Simplified'
+    elif context['kyc_tpdd_applicable'] == 'kyc_tpdd':
+        context['ComplianceProcessCategory'] = 'KYC Exempt'
+    else:
+        context['ComplianceProcessCategory'] = context['kyc_tpdd_applicable']
+        
     return render (request,'supplierdetail.html', context)
 
 def crastatuslist(request):
