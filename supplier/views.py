@@ -4,6 +4,7 @@ from django.conf import settings
 import pysftp
 import csv
 from panel.models import CRAstatus, CraFtpLog
+from .models import Compliance_threshhold
 import datetime
 
 def filetosql(csvfile):
@@ -44,7 +45,6 @@ def filetosql(csvfile):
         print(row)
     
     return count
-
 
 def processftpfile(sftp, filename):
     # cnopts = pysftp.CnOpts()
@@ -88,3 +88,12 @@ def syncFTP(request):
         "files": files
     }
     return render (request,'ftplist.html', context)
+
+def supplierlist(request):
+    comths = Compliance_threshhold.objects.all().prefetch_related('supplier')
+    
+    context = {
+        "comths": comths
+    }
+    
+    return render (request,'supplierlist.html', context)

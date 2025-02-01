@@ -18,12 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 # from panel import views
 from panel.views import coupasupplierdetail, crastatuslist
-from supplier.views import syncFTP
+from supplier.views import syncFTP, supplierlist
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', coupasupplierdetail),
     path('api/', include("apis.urls")),
     path('ftp/', syncFTP),
-    path('crastatus/', crastatuslist)
+    path('crastatus/', crastatuslist),
+    path('supplier/', supplierlist)
 ]
