@@ -58,16 +58,6 @@
         </style>
     </head>
     <body>
-        
-        {% comment %} <h5>DEBUG</h5> {% endcomment %}
-        {% comment %} <p>object_id: {{ object_id }}</p>
-        <p>object_type: {{ object_type }}</p>
-        <p>user_id: {{ user_id }}</p>
-        <p>coupahost: {{ coupahost }}</p> 
-        <p>supplier: {{ suppliername }}</p> 
-        <p>cra guid: {{ cra_guid }}</p> 
-        <p>error: {{ error_desc }}</p>
-        <p>{{ json_auth }}</p> {% endcomment %}
         <hr/>
 
         {% if error_desc != "None" %}
@@ -92,7 +82,7 @@
                 {% endfor %}
             </tbody>
          </table>
-<br/>
+        <br/>
         <table>
             <thead>
                 <tr>
@@ -170,5 +160,29 @@
 
             </tbody>
         </table>
+        <br/>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>PO Spend</th>
+                    <th>Non PO Spend</th>
+                    <th>Total Spend</th>
+                    <th>Spend Threshold</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for compl in comths%}
+                <tr>
+                    <td>{{ compl.total_year }}</td>
+                    <td>{{ compl.spend_currency }} {{ compl.spend_non_po_invoices }}</td>
+                    <td>{{ compl.spend_currency }} {{ compl.spend_purchase_orders }}</td>
+                    <td>{{ compl.spend_currency }} {{ compl.spend_total }}</td>
+                    <td>{{ compl.spend_currency }} {{ compl.spend_threshold }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
     </body>
 </html>
