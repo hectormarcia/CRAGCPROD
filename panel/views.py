@@ -24,10 +24,11 @@ def coupasupplierdetail(request):
         if json_auth:
             access_token = json_auth['access_token']
             proxyid = getproxysupplierdetails(access_token, object_id)
+            supplier_guid = None
             if proxyid == 0:
                 error_desc = "This supplier is not linked to CRA yet"
             else:
-                supplier_guid = None
+
                 cras = CRAstatus.objects.filter(proxyid=proxyid)
                 if len(cras) > 0:
                     cra = cras[0]
@@ -38,7 +39,7 @@ def coupasupplierdetail(request):
             else:
                 error_desc = "This supplier is not linked to CRA yet"
         
-        cras = CRAstatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate')
+        cras = CRAstatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate').order_by('programname')
     
         # sup = Supplier.objects.get(pk=object_id)
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)

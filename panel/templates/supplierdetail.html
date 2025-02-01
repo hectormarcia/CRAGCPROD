@@ -70,6 +70,7 @@
             <h2>{{ error_desc }}</h2>
         {% endif %}
 
+        {% if programmes %}
         <table>
             <thead>
                 <tr>
@@ -170,6 +171,9 @@
             </tbody>
         </table>
         <br/>
+        {% endif %}
+
+        {% if comths %}
         <table>
             <thead>
                 <tr>
@@ -192,6 +196,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% endif %}
 
     </body>
 </html>
