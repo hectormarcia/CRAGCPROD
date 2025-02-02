@@ -85,6 +85,8 @@ def coupasupplierdetail(request):
             context['ComplianceProcessCategory'] = 'KYC Exempt'
         else:
             context['ComplianceProcessCategory'] = context['kyc_tpdd_applicable']
+    else:
+        context['ComplianceProcessCategory'] = 'Not found'
         
     return render (request,'supplierdetail.html', context)
 
