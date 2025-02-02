@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.http import HttpResponse
+
 # from ftplib import FTP
 import pysftp
 import csv
@@ -95,7 +97,7 @@ def syncFTP(request):
                 context = {
                     'message': msg
                 }
-                return render (request,'ftplist.html', context)
+                return HttpResponse(msg) #render (request,'ftplist.html', context)
             
     if request.method == "POST":
         data = request.POST
