@@ -7,6 +7,10 @@ class CraFtpLog(models.Model):
     filename = models.CharField(max_length=250, null=False)
     records =  models.IntegerField(null=True)
 
+class ProgramSequence(models.Model):
+    programname = models.CharField(max_length=128)
+    sequence = models.IntegerField()
+
 class CRAstatus(models.Model):
     corporatename = models.CharField(max_length=250, null=False)
     proxyid = models.IntegerField(null=True)

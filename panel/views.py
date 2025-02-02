@@ -74,21 +74,29 @@ def coupasupplierdetail(request):
             if  field['value']:
                 context[field['name']] = field['value']
 
-    if context['kyc_tpdd_applicable'] == 'tpdd':
-        context['ComplianceProcessCategory'] = 'TPDD'
-    elif context['kyc_tpdd_applicable'] == 'kyc':
-        context['ComplianceProcessCategory'] = 'KYC Full'
-    elif context['kyc_tpdd_applicable'] == 'simplified_kyc':
-        context['ComplianceProcessCategory'] = 'KYC Simplified'
-    elif context['kyc_tpdd_applicable'] == 'kyc_tpdd':
-        context['ComplianceProcessCategory'] = 'KYC Exempt'
-    else:
-        context['ComplianceProcessCategory'] = context['kyc_tpdd_applicable']
+    if 'kyc_tpdd_applicable' in context:
+        if context['kyc_tpdd_applicable'] == 'tpdd':
+            context['ComplianceProcessCategory'] = 'TPDD'
+        elif context['kyc_tpdd_applicable'] == 'kyc':
+            context['ComplianceProcessCategory'] = 'KYC Full'
+        elif context['kyc_tpdd_applicable'] == 'simplified_kyc':
+            context['ComplianceProcessCategory'] = 'KYC Simplified'
+        elif context['kyc_tpdd_applicable'] == 'kyc_tpdd':
+            context['ComplianceProcessCategory'] = 'KYC Exempt'
+        else:
+            context['ComplianceProcessCategory'] = context['kyc_tpdd_applicable']
         
     return render (request,'supplierdetail.html', context)
 
 def crastatuslist(request):
     cras = CRAstatus.objects.all()
+    # cras = CRAstatus.objects.extra(
+    #     tables= ['panel_programsequence'],
+    #     where = [
+    #     'panel_programsequence.programname=panel_crastatus.programname'
+    #     ]
+    # )
+    
     context = {
         'cras': list(cras)
     }
