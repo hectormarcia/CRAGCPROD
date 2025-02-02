@@ -178,6 +178,7 @@
             <thead>
                 <tr>
                     <th>Year</th>
+                    <th>Legal Entity</th>
                     <th>PO Spend</th>
                     <th>Non PO Spend</th>
                     <th>Total Spend</th>
@@ -188,6 +189,7 @@
                 {% for compl in comths%}
                 <tr>
                     <td>{{ compl.total_year }}</td>
+                    <td>{{ compl.legal_entity }}</td>
                     <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_non_po_invoices|currency }}</td>
                     <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_purchase_orders|currency }}</td>
                     <td class='alnright'>{{ compl.spend_currency }} {{ compl.spend_total|currency }}</td>
