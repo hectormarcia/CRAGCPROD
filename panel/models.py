@@ -22,5 +22,5 @@ class CRAstatus(models.Model):
     updatedate = models.CharField(max_length=80, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    # programsequence = models.ForeignKey(ProgramSequence, on_delete=models.SET_NULL, null=True, db_column='programname')
     

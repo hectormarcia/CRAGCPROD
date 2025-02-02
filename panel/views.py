@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.clickjacking import xframe_options_exempt
 from coupaconnect.utility import coupa_oauth, getcoresupplierdetails, getproxysupplierdetails, getcrasupplierfields
 from supplier.models import Supplier, Compliance_threshhold
-from panel.models import CRAstatus, CraFtpLog
+from panel.models import CRAstatus, CraFtpLog, ProgramSequence
 from django.db.models import Max
 # Create your views here.
 
@@ -16,7 +16,8 @@ def coupasupplierdetail(request):
     supplier_name = ""
     guid = ""
     fields = []
-    cras = []
+    # cras = []
+    sortedlstcras = []
     
     if object_type != "supplier":
         error_desc = "The context is wrong, please talk to your administrator"
@@ -40,8 +41,20 @@ def coupasupplierdetail(request):
             else:
                 error_desc = "This supplier is not linked to CRA yet"
         
-        cras = CRAstatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate').order_by('programname')
-    
+        cras = CRAstatus.objects.filter(entityid=supplier_guid).values('programname','programstatus', 'updatedate') #.order_by('programname')
+        lstcras = cras.values()
+        sequence = ProgramSequence.objects.all().values()
+        
+        for cra in lstcras:
+            res = next((sub for sub in sequence if sub['programname'] == cra['programname']), None)
+            if res:
+                cra['sequence'] = res['sequence']
+            else:
+                cra['sequence'] = 5000
+
+        sortedlstcras = sorted(lstcras, key=lambda x: x['sequence'])
+
+        
         # sup = Supplier.objects.get(pk=object_id)
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
         if len(sups) > 0:
@@ -64,7 +77,7 @@ def coupasupplierdetail(request):
         "suppliername": supplier_name,
         "cra_guid": guid,
         "error_desc": error_desc,
-        "programmes": list(cras),
+        "programmes": sortedlstcras,
         "comths": list(comths),
         "lastupdate": maxval
     }
@@ -91,15 +104,21 @@ def coupasupplierdetail(request):
     return render (request,'supplierdetail.html', context)
 
 def crastatuslist(request):
-    cras = CRAstatus.objects.all()
-    # cras = CRAstatus.objects.extra(
-    #     tables= ['panel_programsequence'],
-    #     where = [
-    #     'panel_programsequence.programname=panel_crastatus.programname'
-    #     ]
-    # )
     
+    cras = CRAstatus.objects.all()
+    lstcras = cras.values()
+    sequence = ProgramSequence.objects.all().values()
+    
+    for cra in lstcras:
+        res = next((sub for sub in sequence if sub['programname'] == cra['programname']), None)
+        if res:
+            cra['sequence'] = res['sequence']
+        else:
+            cra['sequence'] = 5000
+
+    sorted_list = sorted(lstcras, key=lambda x: x['sequence'])
+
     context = {
-        'cras': list(cras)
+        'cras': list(sorted_list)
     }
     return render (request,'crastatus.html', context)
