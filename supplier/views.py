@@ -87,7 +87,7 @@ def syncFTP(request):
         data = request.GET
         if 'process' in data:
             if data['process'] == 'true':
-                print('Process Supplier Program Statuses - V2.csv - IS IT EXISTS')
+                print('Process Supplier Program Statuses - V2.csv - IF IT EXISTS')
                 retVal = processftpfile(sftp, 'Supplier Program Statuses - V2.csv')
                 if retVal == True:
                     msg = 'Succesfully processed Supplier Program Statuses - V2.csv'
