@@ -54,7 +54,6 @@ def coupasupplierdetail(request):
 
         sortedlstcras = sorted(lstcras, key=lambda x: x['sequence'])
 
-        
         # sup = Supplier.objects.get(pk=object_id)
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
         if len(sups) > 0:
@@ -86,6 +85,17 @@ def coupasupplierdetail(request):
         for field in fields:
             if  field['value']:
                 context[field['name']] = field['value']
+
+    if 'goods_services_applicable' in context:
+        if context['goods_services_applicable'] == 'no~0.00':
+            context['goods_services_applicable'] = 'No'
+        elif context['goods_services_applicable'] == 'yes~100.00':
+            context['goods_services_applicable'] = 'Yes'
+            if 'gs_approval_status' in context:
+                if context['gs_approval_status'] == 'approved~100.00':
+                    context['goods_services_applicable'] += ' (Approved)'
+                elif context['gs_approval_status'] == 'not_approved~0.00':
+                    context['goods_services_applicable'] += ' (Not Approved)'
 
     if 'kyc_tpdd_applicable' in context:
         if context['kyc_tpdd_applicable'] == 'tpdd':

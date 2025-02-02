@@ -107,6 +107,14 @@
                     <td>{{ ComplianceProcessCategory }}</td>
                 </tr>
                 {% endif %}
+
+                {% if goods_services_applicable %}
+                <tr>
+                    <td>Goods and Services applicable?</td>
+                    <td>{{ goods_services_applicable }}</td>
+                </tr>
+                {% endif %}
+
                 {% if risk_assess_index %}
                 <tr>
                     <td>Risk Assess Index</td>
