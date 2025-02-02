@@ -16,7 +16,7 @@ def coupasupplierdetail(request):
     supplier_name = ""
     guid = ""
     fields = []
-    cras = None
+    cras = []
     
     if object_type != "supplier":
         error_desc = "The context is wrong, please talk to your administrator"
