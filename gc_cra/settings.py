@@ -116,12 +116,14 @@ if IS_AZURE_APP:
     SFTP_PASSWORD = os.getenv("SFTP_PASSWORD")
     SFTP_PORT = os.getenv("SFTP_PORT")
     SFTP_DIRECTORY = os.getenv("SFTP_DIRECTORY")
+    SFTP_ARCHIVE = os.getenv("SFTP_ARCHIVE")
 else:
     SFTP_HOST = 'fileshare-eu-test.coupahost.com'
     SFTP_USERNAME = 'glencore-dev'
     SFTP_PASSWORD = 'X2ymchRWS6fh'
     SFTP_PORT = 22
     SFTP_DIRECTORY = '/Outgoing/CRAPanelApp'
+    SFTP_ARCHIVE = '/Archive/Outgoing/CRAPanelApp'
 
 if IS_AZURE_APP:
     DATABASES = {

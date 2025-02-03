@@ -57,7 +57,7 @@ def processftpfile(sftp, filename):
     nowtime = datetime.datetime.now()
     nowtimestring = nowtime.strftime('%Y%m%d_%H%M%S')
     tofile = filename.replace('.csv', ' (' + nowtimestring + ')') + '.csv'
-    topath = settings.SFTP_DIRECTORY + '/' + tofile
+    topath = settings.SFTP_ARCHIVE + '/' + tofile
     try:
         sftp.rename(frompath, topath)
         with sftp.open(topath, 'r', 32768) as f:
