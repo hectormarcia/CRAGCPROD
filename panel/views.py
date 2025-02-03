@@ -83,7 +83,7 @@ def coupasupplierdetail(request):
             disphours = '{} hours'.format(hours)
         if minutes == 1:
             dispminutes = '{} minute'.format(minutes)
-        elif minutes > 1:
+        else:
             dispminutes = '{} minutes'.format(minutes)       
              
         diffdisplay = diffdisplay + disphours 
