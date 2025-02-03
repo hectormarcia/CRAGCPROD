@@ -91,8 +91,10 @@ def syncFTP(request):
                 retVal = processftpfile(sftp, 'Supplier Program Statuses - V2.csv')
                 if retVal == True:
                     msg = 'Succesfully processed Supplier Program Statuses - V2.csv'
+                    print('FTP file found and processed')
                 else:
                     msg = 'No file to process found'
+                    print('NO FTP file found to process')
                     
                 context = {
                     'message': msg
