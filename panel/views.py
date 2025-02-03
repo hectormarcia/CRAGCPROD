@@ -90,6 +90,7 @@ def coupasupplierdetail(request):
         if hours > 0 and minutes > 0:
             diffdisplay = diffdisplay + ' and '
         diffdisplay = diffdisplay + dispminutes + ' ago.'
+        print('The diff display is ' + diffdisplay)
     except:
         pass
         
