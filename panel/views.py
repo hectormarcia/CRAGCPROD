@@ -4,6 +4,7 @@ from coupaconnect.utility import coupa_oauth, getcoresupplierdetails, getproxysu
 from supplier.models import Supplier, Compliance_threshhold
 from panel.models import CRAstatus, CraFtpLog, ProgramSequence
 from django.db.models import Max
+import datetime
 # Create your views here.
 
 @xframe_options_exempt
@@ -63,8 +64,32 @@ def coupasupplierdetail(request):
             comths = []
         
     maxval = None
+    diffdisplay = 'CRA program status not updated yet'
     try:
         maxval = CraFtpLog.objects.aggregate(Max('created_at'))['created_at__max'] 
+        maxval = maxval.replace(tzinfo=None)
+        now = datetime.datetime.now()
+        diff = now - maxval
+        diffseconds = diff.seconds
+        hours = int(diffseconds/3600)
+        diffseconds = diffseconds - (hours*3600)
+        minutes = int(diffseconds/60)
+        diffdisplay = 'Last updated '
+        disphours = ''
+        dispminutes = ''
+        if hours == 1:
+            disphours = '{} hour'.format(hours)
+        elif hours > 1:
+            disphours = '{} hours'.format(hours)
+        if minutes == 1:
+            dispminutes = '{} minute'.format(minutes)
+        elif minutes > 1:
+            dispminutes = '{} minutes'.format(minutes)       
+             
+        diffdisplay = diffdisplay + disphours 
+        if hours > 0 and minutes > 0:
+            diffdisplay = diffdisplay + ' and '
+        diffdisplay = diffdisplay + dispminutes + ' ago.'
     except:
         pass
         
@@ -78,7 +103,8 @@ def coupasupplierdetail(request):
         "error_desc": error_desc,
         "programmes": sortedlstcras,
         "comths": list(comths),
-        "lastupdate": maxval
+        "lastupdate": maxval,
+        "updatedifference": diffdisplay
     }
     
     if len(fields) > 0:
