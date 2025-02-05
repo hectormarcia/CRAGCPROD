@@ -1,7 +1,6 @@
 from django.contrib import admin
 from models import ProgramSequence, CraFtpLog, CRAstatus
 
-
 @admin.register(ProgramSequence)
 class ProgramSequenceAdmin(admin.ModelAdmin):
     list_display = ('programname', 'sequence')     
