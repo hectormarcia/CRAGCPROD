@@ -6,10 +6,18 @@ class CraFtpLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     filename = models.CharField(max_length=250, null=False)
     records =  models.IntegerField(null=True)
+    
+    class Meta:
+        verbose_name = "FTP log"
+        verbose_name_plural = "FTP logs" 
 
 class ProgramSequence(models.Model):
     programname = models.CharField(max_length=128)
     sequence = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Programs sequence"
+        verbose_name_plural = "Programs sequences" 
 
 # python3 manage.py shell
 # from panel.models import ProgramSequence
@@ -35,5 +43,7 @@ class CRAstatus(models.Model):
     updatedate = models.CharField(max_length=80, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # programsequence = models.ForeignKey(ProgramSequence, on_delete=models.SET_NULL, null=True, db_column='programname')
-    
+
+    class Meta:
+            verbose_name = "CRA Status"
+            verbose_name_plural = "CRA Statuses"    
