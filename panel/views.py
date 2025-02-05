@@ -56,12 +56,11 @@ def coupasupplierdetail(request):
         sortedlstcras = sorted(lstcras, key=lambda x: x['sequence'])
 
         # sup = Supplier.objects.get(pk=object_id)
+        comths = []
         sups = Supplier.objects.filter(coupa_supplier_id=object_id)
         if len(sups) > 0:
             sup = sups[0]
-            comths = Compliance_threshhold.objects.filter(supplier=sup)
-        else:
-            comths = []
+            comths = list(Compliance_threshhold.objects.filter(supplier=sup))
         
     maxval = None
     diffdisplay = 'CRA program status not updated yet'
@@ -103,7 +102,7 @@ def coupasupplierdetail(request):
         "cra_guid": guid,
         "error_desc": error_desc,
         "programmes": sortedlstcras,
-        "comths": list(comths),
+        "comths": comths,
         "lastupdate": maxval,
         "updatedifference": diffdisplay
     }
