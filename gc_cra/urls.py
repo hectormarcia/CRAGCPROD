@@ -19,6 +19,8 @@ from django.urls import path, include
 # from panel import views
 from panel.views import coupasupplierdetail, crastatuslist
 from supplier.views import syncFTP, supplierlist
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +29,4 @@ urlpatterns = [
     path('ftp/', syncFTP),
     path('crastatus/', crastatuslist),
     path('supplier/', supplierlist)
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
