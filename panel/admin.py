@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import ProgramSequence, CraFtpLog, CRAstatus
+from .models import ProgramSequence, CraFtpLog, CRAstatus
 
 class ProgramSequenceAdmin(admin.ModelAdmin):
     list_display = ('programname', 'sequence')     
