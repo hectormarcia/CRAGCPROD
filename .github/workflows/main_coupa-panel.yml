@@ -68,4 +68,4 @@ jobs:
         with:
           app-name: 'coupa-panel'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8FA888751DC14AFE936AF62DF318F10F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_549B080BCD7D46B3A5D7530527CC8325 }}
